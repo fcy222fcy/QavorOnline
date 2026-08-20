@@ -119,6 +119,15 @@ export interface Content {
     intro: string
     steps: Step[]
   }
+  story: {
+    eyebrow: string
+    title: string
+    intro: string
+    statement: string
+    originLabel: string
+    origin: string
+    chapters: { label: string; title: string; desc: string }[]
+  }
   featuresHeading: {
     eyebrow: string
     title: string
@@ -210,6 +219,8 @@ export interface Content {
   }
   screenshots: {
     items: Screenshot[]
+    zoomLabel: string
+    closeLabel: string
     mock: {
       newAgent: string
       ragHelper: string
@@ -261,11 +272,11 @@ export const site = {
 const zh: Content = {
   nav: [
     { id: 'overview', label: '项目概览' },
+    { id: 'story', label: '关于 Qavor' },
     { id: 'features', label: '核心功能' },
     { id: 'architecture', label: '系统架构' },
     { id: 'rag', label: 'RAG 流程' },
     { id: 'trace', label: '链路追踪' },
-    { id: 'evaluation', label: '评测' },
     { id: 'screenshots', label: '界面预览' },
   ],
   ui: {
@@ -301,6 +312,38 @@ const zh: Content = {
       { label: 'Agent', sub: 'Eino 编排' },
       { label: '工具调用', sub: 'Tool Calling' },
       { label: '可观测与评测', sub: 'Trace & Eval' },
+    ],
+  },
+  story: {
+    eyebrow: '关于 Qavor',
+    title: '从真实需求出发，构建可演进的 Agent 工程平台',
+    intro:
+      'Qavor 关注的不只是“让模型回答一个问题”，而是把模型、知识、工具与运行过程组织成一套可配置、可观测、可评测的完整系统。',
+    statement: '让 Agent 从一次性演示，走向能够持续开发、运行和改进的工程化产品。',
+    originLabel: '项目与作者',
+    origin:
+      'Qavor 源于个人对 AI Agent 工程化的长期实践，但这个页面的主角始终是项目本身：它解决的问题、形成的能力，以及仍在继续的演进。',
+    chapters: [
+      {
+        label: '起点',
+        title: '不满足于只能演示的 Agent',
+        desc: '当模型调用、知识检索、工具执行各自分散，应用很快会在配置、调试和质量判断上失去控制。Qavor 从这些真实工程问题出发。',
+      },
+      {
+        label: '目标',
+        title: '把关键链路放进同一个工作台',
+        desc: '统一管理 Agent、模型、知识库与工具，让一次请求从输入、检索、推理到工具调用都有清晰的运行路径。',
+      },
+      {
+        label: '现在',
+        title: '能力不止于对话界面',
+        desc: '项目围绕混合检索、Rerank、Trace / Span 追踪和检索评测形成闭环，使开发者既能构建能力，也能理解运行结果。',
+      },
+      {
+        label: '方向',
+        title: '持续增强开放性与可靠性',
+        desc: 'Qavor 将继续扩展模型与工具生态，并围绕检索质量、链路稳定性和开发体验打磨更可靠的 Agent 基础设施。',
+      },
     ],
   },
   featuresHeading: {
@@ -487,9 +530,11 @@ const zh: Content = {
   screenshotsHeading: {
     eyebrow: '界面预览',
     title: '走进产品',
-    sub: '以下为产品界面示意。将真实截图命名为对应文件放入 /public/screenshots/ 即可自动替换 Mock 占位（无需改代码）。',
+    sub: '从 Agent 对话与知识库管理，到模型、工具和全链路追踪，这些真实界面展示了 Qavor 如何串联 Agent 的开发、运行与排障。点击任意图片查看完整细节。',
   },
   screenshots: {
+    zoomLabel: '放大查看',
+    closeLabel: '关闭图片',
     items: [
       {
         id: 'agent-chat',
@@ -581,11 +626,11 @@ const zh: Content = {
 const en: Content = {
   nav: [
     { id: 'overview', label: 'Overview' },
+    { id: 'story', label: 'About Qavor' },
     { id: 'features', label: 'Features' },
     { id: 'architecture', label: 'Architecture' },
     { id: 'rag', label: 'RAG Pipeline' },
     { id: 'trace', label: 'Agent Trace' },
-    { id: 'evaluation', label: 'Evaluation' },
     { id: 'screenshots', label: 'Screenshots' },
   ],
   ui: {
@@ -621,6 +666,38 @@ const en: Content = {
       { label: 'Agent', sub: 'Eino Orchestration' },
       { label: 'Tool Calling', sub: 'Tool Calling' },
       { label: 'Trace & Evaluation', sub: 'Observe & Eval' },
+    ],
+  },
+  story: {
+    eyebrow: 'About Qavor',
+    title: 'From Real Needs to an Evolvable Agent Platform',
+    intro:
+      'Qavor is not only about making a model answer a question. It brings models, knowledge, tools, and runtime behavior into one configurable, observable, and measurable system.',
+    statement: 'Move Agents beyond one-off demos into products that teams can continuously build, run, and improve.',
+    originLabel: 'Project & creator',
+    origin:
+      'Qavor grew from long-term personal exploration of Agent engineering, but the project remains the focus: the problems it addresses, the capabilities it brings together, and the direction it continues to pursue.',
+    chapters: [
+      {
+        label: 'Origin',
+        title: 'Beyond Agents That Only Demo Well',
+        desc: 'When model calls, retrieval, and tool execution live in separate places, configuration, debugging, and quality quickly become hard to control. Qavor starts from these real engineering problems.',
+      },
+      {
+        label: 'Goal',
+        title: 'One Workspace for the Critical Path',
+        desc: 'Manage Agents, models, knowledge bases, and tools together, with a clear path from input and retrieval through reasoning and tool execution.',
+      },
+      {
+        label: 'Today',
+        title: 'More Than a Chat Interface',
+        desc: 'Hybrid retrieval, reranking, Trace / Span observability, and retrieval evaluation form a feedback loop for building capabilities and understanding their results.',
+      },
+      {
+        label: 'Direction',
+        title: 'More Open, More Reliable',
+        desc: 'Qavor will keep expanding its model and tool ecosystem while improving retrieval quality, runtime reliability, and the overall Agent development experience.',
+      },
     ],
   },
   featuresHeading: {
@@ -807,9 +884,11 @@ const en: Content = {
   screenshotsHeading: {
     eyebrow: 'Screenshots',
     title: 'Inside the Product',
-    sub: 'Product UI mockups below. Drop real screenshots named accordingly into /public/screenshots/ to auto-replace the mock placeholders (no code changes needed).',
+    sub: 'From Agent chat and knowledge management to models, tools, and end-to-end tracing, these real interfaces show how Qavor connects Agent development, operation, and debugging. Select any image to view the full detail.',
   },
   screenshots: {
+    zoomLabel: 'View larger',
+    closeLabel: 'Close image',
     items: [
       {
         id: 'agent-chat',

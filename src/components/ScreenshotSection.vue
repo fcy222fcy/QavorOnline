@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
-import { ImageOff } from 'lucide-vue-next'
+import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
+import { ImageOff, X, ZoomIn } from 'lucide-vue-next'
 import { useContent } from '../composables/useContent'
+import type { Screenshot } from '../data/project'
 
 // Per-src load state. Real PNGs dropped into /public/screenshots/ will
 // display automatically; on error we fall back to a CSS mock UI.
@@ -9,6 +10,14 @@ const data = useContent()
 const screenshots = computed(() => data.value.screenshots)
 const heading = computed(() => data.value.screenshotsHeading)
 const failed = reactive<Record<string, boolean>>({})
+const selected = ref<Screenshot | null>(null)
+
+function onKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape') selected.value = null
+}
+
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
@@ -38,14 +47,27 @@ const failed = reactive<Record<string, boolean>>({})
           </div>
 
           <!-- viewport -->
-          <div class="relative aspect-[16/10] overflow-hidden bg-surface-2/30">
+          <button
+            type="button"
+            class="group relative block aspect-[16/10] w-full overflow-hidden bg-surface-2/30 text-left"
+            :aria-label="`${screenshots.zoomLabel} ${s.title}`"
+            @click="selected = s"
+          >
             <img
               v-if="!failed[s.src]"
               :src="s.src"
               :alt="s.title"
-              class="h-full w-full object-cover"
+              class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
               @error="failed[s.src] = true"
             />
+
+            <span
+              v-if="!failed[s.src]"
+              class="absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-md border border-white/15 bg-black/65 px-2.5 py-1.5 text-[11px] text-white opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+            >
+              <ZoomIn :size="13" />
+              {{ screenshots.zoomLabel }}
+            </span>
 
             <!-- ===== Mock UIs (fallback) ===== -->
             <div v-else class="absolute inset-0 p-4 text-left">
@@ -104,7 +126,7 @@ const failed = reactive<Record<string, boolean>>({})
                 </div>
               </div>
             </div>
-          </div>
+          </button>
 
           <!-- caption -->
           <figcaption class="flex items-center gap-2 border-t border-line px-4 py-3">
@@ -116,6 +138,29 @@ const failed = reactive<Record<string, boolean>>({})
           </figcaption>
         </figure>
       </div>
+    </div>
+
+    <div
+      v-if="selected"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="selected.title"
+      class="fixed inset-0 z-[80] grid place-items-center bg-black/90 p-4 sm:p-8"
+      @click.self="selected = null"
+    >
+      <button
+        type="button"
+        class="absolute top-4 right-4 grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-black/60 text-white transition-colors hover:bg-white/10"
+        :aria-label="screenshots.closeLabel"
+        @click="selected = null"
+      >
+        <X :size="20" />
+      </button>
+      <img
+        :src="selected.src"
+        :alt="selected.title"
+        class="max-h-[88vh] max-w-[94vw] rounded-lg object-contain shadow-2xl"
+      />
     </div>
   </section>
 </template>

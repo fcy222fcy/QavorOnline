@@ -2,6 +2,7 @@
 import Navbar from './components/Navbar.vue'
 import HeroSection from './components/HeroSection.vue'
 import OverviewSection from './components/OverviewSection.vue'
+import ProjectStorySection from './components/ProjectStorySection.vue'
 import FeatureSection from './components/FeatureSection.vue'
 import ArchitectureSection from './components/ArchitectureSection.vue'
 import RagPipeline from './components/RagPipeline.vue'
@@ -18,6 +19,7 @@ import Footer from './components/Footer.vue'
   <main id="top">
     <HeroSection />
     <OverviewSection />
+    <ProjectStorySection />
     <FeatureSection />
     <ArchitectureSection />
     <RagPipeline />

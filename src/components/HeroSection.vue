@@ -1,17 +1,22 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Github, ArrowRight, Cpu, Search, GitMerge, Layers } from 'lucide-vue-next'
+import { Github, ArrowRight, Bot, Database, Wrench, Cpu, Activity, CheckCircle2, Layers } from 'lucide-vue-next'
 import { useContent } from '../composables/useContent'
 
 const data = useContent()
 const hero = computed(() => data.value.hero)
 
-// Mini trace rows for the hero mock (durations are illustrative).
-const mockSpans = [
-  { name: 'LLM', ms: 1680, pct: 100, color: 'bg-brand' },
-  { name: 'Rerank', ms: 326, pct: 19, color: 'bg-brand-2' },
-  { name: 'Retrieve', ms: 180, pct: 11, color: 'bg-brand-3' },
-  { name: 'Tool Call', ms: 103, pct: 6, color: 'bg-faint' },
+// Mini dashboard stats for the hero mock (values are illustrative).
+const mockStats = [
+  { icon: Bot, label: 'Agents', value: '6' },
+  { icon: Database, label: 'Knowledge Bases', value: '4' },
+  { icon: Wrench, label: 'Tools · MCP', value: '12' },
+  { icon: Cpu, label: 'Models', value: '3' },
+]
+const mockRuns = [
+  { name: 'RAG Assistant', ms: '2.31s' },
+  { name: 'Tool Bot', ms: '1.87s' },
+  { name: 'Doc Search', ms: '0.42s' },
 ]
 </script>
 
@@ -62,57 +67,59 @@ const mockSpans = [
             <span class="h-2.5 w-2.5 rounded-full bg-danger/70" />
             <span class="h-2.5 w-2.5 rounded-full bg-warn/70" />
             <span class="h-2.5 w-2.5 rounded-full bg-brand-2/70" />
-            <span class="ml-3 font-mono text-xs text-faint">qavor.local / agent</span>
+            <span class="ml-3 font-mono text-xs text-faint">qavor.local / dashboard</span>
           </div>
 
           <div class="space-y-4 p-5">
-            <!-- trace header -->
+            <!-- platform header -->
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2 text-sm text-fg">
-                <Cpu :size="15" class="text-brand" />
-                <span class="font-medium">Agent Run</span>
+                <Layers :size="15" class="text-brand" />
+                <span class="font-medium">Qavor Platform</span>
               </div>
-              <span class="font-mono text-xs text-muted">2.31s</span>
+              <span class="flex items-center gap-1.5 font-mono text-xs text-brand-2">
+                <span class="h-1.5 w-1.5 rounded-full bg-brand-2" /> Running
+              </span>
             </div>
 
-            <!-- span bars -->
-            <div class="space-y-2.5">
-              <div v-for="s in mockSpans" :key="s.name">
-                <div class="mb-1 flex items-center justify-between font-mono text-[11px] text-muted">
-                  <span>{{ s.name }}</span>
-                  <span>{{ s.ms }}ms</span>
+            <!-- platform stat cards -->
+            <div class="grid grid-cols-2 gap-3">
+              <div
+                v-for="stat in mockStats"
+                :key="stat.label"
+                class="rounded-lg border border-line bg-surface-2/50 p-3"
+              >
+                <div class="flex items-center gap-1.5 text-[11px] text-faint">
+                  <component :is="stat.icon" :size="12" /> {{ stat.label }}
                 </div>
-                <div class="h-2 w-full overflow-hidden rounded-full bg-surface-2">
-                  <div
-                    class="h-full rounded-full"
-                    :class="s.color"
-                    :style="{ width: s.pct + '%' }"
-                  />
-                </div>
+                <div class="mt-1 font-mono text-lg text-fg">{{ stat.value }}</div>
               </div>
             </div>
 
-            <!-- retrieval mini row -->
-            <div class="grid grid-cols-2 gap-3 border-t border-line pt-4">
-              <div class="rounded-lg border border-line bg-surface-2/50 p-3">
-                <div class="flex items-center gap-1.5 text-[11px] text-faint">
-                  <Search :size="12" /> Vector
-                </div>
-                <div class="mt-1 font-mono text-lg text-fg">0.86</div>
+            <!-- recent runs -->
+            <div class="border-t border-line pt-3">
+              <div class="mb-2 flex items-center gap-1.5 text-[11px] text-faint">
+                <Activity :size="12" /> Recent Runs
               </div>
-              <div class="rounded-lg border border-line bg-surface-2/50 p-3">
-                <div class="flex items-center gap-1.5 text-[11px] text-faint">
-                  <GitMerge :size="12" /> Keyword
+              <div class="space-y-1.5">
+                <div
+                  v-for="run in mockRuns"
+                  :key="run.name"
+                  class="flex items-center justify-between rounded-md border border-line bg-surface-2/40 px-2.5 py-1.5 font-mono text-[11px]"
+                >
+                  <span class="flex items-center gap-1.5 text-muted">
+                    <CheckCircle2 :size="11" class="text-brand-2" /> {{ run.name }}
+                  </span>
+                  <span class="text-faint">{{ run.ms }}</span>
                 </div>
-                <div class="mt-1 font-mono text-lg text-fg">0.72</div>
               </div>
             </div>
 
             <!-- footer status -->
             <div class="flex items-center justify-between border-t border-line pt-3 text-[11px] text-faint">
-              <span class="flex items-center gap-1.5"><Layers :size="12" /> RAG · Trace</span>
+              <span class="flex items-center gap-1.5"><Layers :size="12" /> RAG · Trace · SSE</span>
               <span class="flex items-center gap-1.5 text-brand-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-brand-2" /> OK
+                <span class="h-1.5 w-1.5 rounded-full bg-brand-2" /> All OK
               </span>
             </div>
           </div>
