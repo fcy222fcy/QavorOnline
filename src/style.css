@@ -1,0 +1,144 @@
+@import 'tailwindcss';
+
+/* ----------------------------------------------------------------------------
+   Design tokens — dark, minimal, "developer infrastructure" aesthetic.
+   No purple, no rainbow gradients, no glassmorphism overload.
+---------------------------------------------------------------------------- */
+@theme {
+  --color-bg: #080a0c;
+  --color-surface: #111418;
+  --color-surface-2: #161b22;
+  --color-line: #1e242b;
+  --color-line-strong: #2b323b;
+  --color-fg: #e8ebef;
+  --color-muted: #9aa1a9;
+  --color-faint: #646b73;
+  --color-brand: #22d3ee;
+  --color-brand-2: #34d399;
+  --color-brand-3: #60a5fa;
+  --color-danger: #f87171;
+  --color-warn: #fbbf24;
+
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 76px;
+  }
+
+  body {
+    background-color: #080a0c;
+    background-image:
+      radial-gradient(1200px 620px at 50% -12%, rgba(34, 211, 238, 0.09), transparent 60%),
+      radial-gradient(900px 520px at 88% 6%, rgba(52, 211, 153, 0.05), transparent 55%);
+    color: #e8ebef;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* faint grid for depth, faded toward the bottom */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(circle at 50% 0%, #000, transparent 72%);
+    mask-image: radial-gradient(circle at 50% 0%, #000, transparent 72%);
+  }
+
+  #app {
+    position: relative;
+    z-index: 1;
+  }
+
+  ::selection {
+    background: rgba(34, 211, 238, 0.25);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .section {
+    @apply scroll-mt-20 py-20 sm:py-28;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.22em] text-brand;
+  }
+
+  .section-title {
+    @apply font-display text-2xl font-semibold text-fg sm:text-3xl;
+  }
+
+  .section-sub {
+    @apply mt-3 max-w-2xl text-sm leading-relaxed text-muted sm:text-base;
+  }
+
+  .card {
+    @apply rounded-xl border border-line bg-surface/80;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-md border border-line bg-surface-2/70 px-2.5 py-1 font-mono text-xs text-muted;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-150 focus-visible:outline-none;
+  }
+
+  .btn-primary {
+    @apply bg-brand text-[#04161a] hover:brightness-110;
+  }
+
+  .btn-ghost {
+    @apply border border-line text-fg hover:border-line-strong hover:bg-white/5;
+  }
+
+  .mono {
+    @apply font-mono;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Scroll reveal — lightweight, respects reduced motion.
+---------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+.reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
