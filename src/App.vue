@@ -8,7 +8,6 @@ import RagPipeline from './components/RagPipeline.vue'
 import TraceDemo from './components/TraceDemo.vue'
 import EvaluationSection from './components/EvaluationSection.vue'
 import ScreenshotSection from './components/ScreenshotSection.vue'
-import ContributionSection from './components/ContributionSection.vue'
 import TechStack from './components/TechStack.vue'
 import EngineeringHighlights from './components/EngineeringHighlights.vue'
 import Footer from './components/Footer.vue'
@@ -25,7 +24,6 @@ import Footer from './components/Footer.vue'
     <TraceDemo />
     <EvaluationSection />
     <ScreenshotSection />
-    <ContributionSection />
     <TechStack />
     <EngineeringHighlights />
   </main>

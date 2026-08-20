@@ -221,19 +221,6 @@ export interface Content {
       metrics: string
     }
   }
-  contribution: {
-    eyebrow: string
-    title: string
-    subtitle: string
-    note: string
-    banner: {
-      scope: string
-      sep: string
-      desc: string
-    }
-    myWork: string
-    items: { title: string; desc: string; points: string[] }[]
-  }
   techStackHeading: {
     eyebrow: string
     title: string
@@ -273,12 +260,13 @@ export const site = {
 /* ------------------------------------------------------------------ */
 const zh: Content = {
   nav: [
+    { id: 'overview', label: '项目概览' },
     { id: 'features', label: '核心功能' },
     { id: 'architecture', label: '系统架构' },
-    { id: 'rag', label: 'RAG' },
+    { id: 'rag', label: 'RAG 流程' },
     { id: 'trace', label: '链路追踪' },
+    { id: 'evaluation', label: '评测' },
     { id: 'screenshots', label: '界面预览' },
-    { id: 'contribution', label: '我的贡献' },
   ],
   ui: {
     github: 'GitHub',
@@ -400,8 +388,8 @@ const zh: Content = {
     sub: '从文档入库到用户提问，RAG Pipeline 在检索阶段用 Vector + Keyword 双通道召回，经 RRF 融合与 Rerank 精排，再交给 LLM 生成答案。',
   },
   rag: {
-    eyebrow: 'RAG Pipeline',
-    title: 'Hybrid Retrieval, End to End',
+    eyebrow: 'RAG 流程',
+    title: '端到端的混合检索',
     intro:
       '从文档入库到用户提问，RAG Pipeline 在检索阶段用 Vector + Keyword 双通道召回，经 RRF 融合与 Rerank 精排，再交给 LLM 生成答案。',
     ingestLabel: '入库流程',
@@ -551,40 +539,6 @@ const zh: Content = {
       metrics: '检索指标',
     },
   },
-  contribution: {
-    eyebrow: '我的贡献',
-    title: '我的贡献',
-    subtitle: 'What I built in Qavor',
-    note: '下方明确区分「项目具备的能力」与「我本人负责实现的模块」，便于面试官快速定位我的工作。',
-    banner: {
-      scope: '我的职责范围',
-      sep: '·',
-      desc: '项目整体能力见上方核心功能，下方为本人独立负责实现的模块。',
-    },
-    myWork: '我的工作',
-    items: [
-      {
-        title: 'RAG 知识库管线',
-        desc: '负责知识库 RAG 完整链路的设计与实现。',
-        points: ['文档处理', '分块', '向量化', '向量存储', '检索'],
-      },
-      {
-        title: '混合检索',
-        desc: '实现 Vector + Keyword 双通道召回与融合精排。',
-        points: ['向量检索', '关键词检索', 'RRF 融合', 'Rerank'],
-      },
-      {
-        title: '链路追踪',
-        desc: '负责 Agent Trace 模块的设计与实现，参考 OpenTelemetry Trace / Span 模型。',
-        points: ['Trace / Span', '父 / 子 Span', '执行耗时', '状态', '错误追踪'],
-      },
-      {
-        title: 'RAG 评测',
-        desc: '设计并实现 RAG 检索评测能力，量化检索质量。',
-        points: ['数据集', 'Gold Chunk', 'Recall', 'Precision', 'MRR', 'NDCG'],
-      },
-    ],
-  },
   techStackHeading: {
     eyebrow: '技术栈',
     title: '务实而现代的技术选型',
@@ -626,12 +580,13 @@ const zh: Content = {
 /* ------------------------------------------------------------------ */
 const en: Content = {
   nav: [
+    { id: 'overview', label: 'Overview' },
     { id: 'features', label: 'Features' },
     { id: 'architecture', label: 'Architecture' },
-    { id: 'rag', label: 'RAG' },
-    { id: 'trace', label: 'Trace' },
+    { id: 'rag', label: 'RAG Pipeline' },
+    { id: 'trace', label: 'Agent Trace' },
+    { id: 'evaluation', label: 'Evaluation' },
     { id: 'screenshots', label: 'Screenshots' },
-    { id: 'contribution', label: 'My Contribution' },
   ],
   ui: {
     github: 'GitHub',
@@ -903,40 +858,6 @@ const en: Content = {
       parsing: 'Parsing',
       metrics: 'Retrieval Metrics',
     },
-  },
-  contribution: {
-    eyebrow: 'My Contribution',
-    title: 'My Contribution',
-    subtitle: 'What I built in Qavor',
-    note: 'Clearly separates the project’s overall capabilities from the modules I personally implemented, so interviewers can locate my work fast.',
-    banner: {
-      scope: 'My Scope',
-      sep: '·',
-      desc: 'Overall capabilities are listed in Features above; below are the modules I independently designed and implemented.',
-    },
-    myWork: 'My Work',
-    items: [
-      {
-        title: 'RAG Pipeline',
-        desc: 'Designed and implemented the full RAG pipeline for the knowledge base.',
-        points: ['Document Processing', 'Chunking', 'Embedding', 'Vector Store', 'Retrieval'],
-      },
-      {
-        title: 'Hybrid Retrieval',
-        desc: 'Implemented Vector + Keyword dual-channel recall with fusion and re-ranking.',
-        points: ['Vector Search', 'Keyword Search', 'RRF Fusion', 'Rerank'],
-      },
-      {
-        title: 'Agent Trace',
-        desc: 'Designed and implemented the Agent Trace module, inspired by the OpenTelemetry Trace / Span model.',
-        points: ['Trace / Span', 'Parent / Child Span', 'Execution Duration', 'Status', 'Error Tracking'],
-      },
-      {
-        title: 'RAG Evaluation',
-        desc: 'Designed and implemented RAG retrieval evaluation to quantify quality.',
-        points: ['Dataset', 'Gold Chunk', 'Recall', 'Precision', 'MRR', 'NDCG'],
-      },
-    ],
   },
   techStackHeading: {
     eyebrow: 'Tech Stack',

@@ -117,12 +117,6 @@ const mockSpans = [
             </div>
           </div>
         </div>
-
-        <!-- subtle accent glow behind the card -->
-        <div
-          class="pointer-events-none absolute -right-10 -top-10 -z-10 h-48 w-48 rounded-full bg-brand/10 blur-3xl"
-          aria-hidden="true"
-        />
       </div>
     </div>
   </section>
