@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { Github, Rocket, Menu, X } from 'lucide-vue-next'
+import { Github, Rocket, Menu, Moon, Sun, X } from 'lucide-vue-next'
 import { useContent, useLocale } from '../composables/useContent'
+import { useTheme } from '../composables/useTheme'
 import { site } from '../data/project'
 
 const data = useContent()
 const navLinks = computed(() => data.value.nav)
 const ui = computed(() => data.value.ui)
 const { locale, toggleLocale } = useLocale()
+const { theme, initializeTheme, toggleTheme } = useTheme()
 const logoUrl = `${import.meta.env.BASE_URL}qavor-logo.png`
 
 const scrolled = ref(false)
@@ -22,6 +24,7 @@ function close() {
 }
 
 onMounted(() => {
+  initializeTheme()
   window.addEventListener('scroll', onScroll, { passive: true })
   onScroll()
 })
@@ -77,6 +80,17 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
           <span class="sm:hidden">{{ ui.liveDemoShort }}</span>
         </a>
 
+        <!-- Theme switch -->
+        <button
+          class="btn btn-ghost px-2.5"
+          :aria-label="theme === 'dark' ? '切换到亮色模式' : '切换到夜间模式'"
+          :title="theme === 'dark' ? '切换到亮色模式' : '切换到夜间模式'"
+          @click="toggleTheme"
+        >
+          <Sun v-if="theme === 'dark'" :size="16" />
+          <Moon v-else :size="16" />
+        </button>
+
         <!-- Language switch -->
         <button
           class="btn btn-ghost px-2.5 font-mono text-xs"
@@ -116,7 +130,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
             v-for="link in navLinks"
             :key="link.id"
             :href="`#${link.id}`"
-            class="rounded-md px-3 py-2.5 text-sm text-muted transition-colors hover:bg-white/5 hover:text-fg"
+            class="rounded-md px-3 py-2.5 text-sm text-muted transition-colors hover:bg-fg/5 hover:text-fg"
             @click="close"
           >
             {{ link.label }}

@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 
 /* ----------------------------------------------------------------------------
-   Design tokens — dark, minimal, "developer infrastructure" aesthetic.
-   No purple, no rainbow gradients, no glassmorphism overload.
+   Design tokens — minimal "developer infrastructure" aesthetic with
+   matching light and dark themes.
 ---------------------------------------------------------------------------- */
 @theme {
   --color-bg: #080a0c;
@@ -24,6 +24,35 @@
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 }
 
+:root {
+  --card-highlight: rgba(255, 255, 255, 0.04);
+  --card-shadow: rgba(0, 0, 0, 0.7);
+  --section-tint: rgba(255, 255, 255, 0.012);
+  --section-seam: rgba(255, 255, 255, 0.07);
+  --selection-bg: rgba(34, 211, 238, 0.25);
+}
+
+:root[data-theme='light'] {
+  --color-bg: #f7fafc;
+  --color-surface: #ffffff;
+  --color-surface-2: #edf3f7;
+  --color-line: #d7e0e7;
+  --color-line-strong: #b9c6d0;
+  --color-fg: #14232d;
+  --color-muted: #52636f;
+  --color-faint: #71818c;
+  --color-brand: #0891b2;
+  --color-brand-2: #0e7490;
+  --color-brand-3: #155e75;
+  --color-danger: #dc2626;
+  --color-warn: #b45309;
+  --card-highlight: rgba(255, 255, 255, 0.8);
+  --card-shadow: rgba(15, 35, 48, 0.16);
+  --section-tint: rgba(8, 145, 178, 0.025);
+  --section-seam: rgba(20, 35, 45, 0.1);
+  --selection-bg: rgba(8, 145, 178, 0.2);
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -31,11 +60,12 @@
   }
 
   body {
-    background-color: #080a0c;
-    color: #e8ebef;
+    background-color: var(--color-bg);
+    color: var(--color-fg);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   #app {
@@ -44,7 +74,7 @@
   }
 
   ::selection {
-    background: rgba(34, 211, 238, 0.25);
+    background: var(--selection-bg);
   }
 
   :focus-visible {
@@ -84,8 +114,8 @@
   .card {
     @apply rounded-xl border border-line bg-surface;
     box-shadow:
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.04),
-      0 14px 34px -22px rgba(0, 0, 0, 0.7);
+      inset 0 1px 0 0 var(--card-highlight),
+      0 14px 34px -22px var(--card-shadow);
   }
 
   .chip {
@@ -101,7 +131,7 @@
   }
 
   .btn-ghost {
-    @apply border border-line text-fg hover:border-line-strong hover:bg-white/5;
+    @apply border border-line text-fg hover:border-line-strong hover:bg-fg/5;
   }
 
   .mono {
@@ -117,14 +147,14 @@ main > section {
   position: relative;
 }
 main > section:nth-child(even) {
-  background: rgba(255, 255, 255, 0.012);
+  background: var(--section-tint);
 }
 main > section:nth-child(even)::before {
   content: '';
   position: absolute;
   inset: 0 0 auto 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+  background: linear-gradient(90deg, transparent, var(--section-seam), transparent);
 }
 
 /* ----------------------------------------------------------------------------
