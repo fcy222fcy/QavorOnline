@@ -1,0 +1,88 @@
+@import 'tailwindcss';
+
+/* ----------------------------------------------------------------------------
+   Design tokens — mirrored 1:1 from the Qavor Vue project (src/style.css)
+   so the React components share the exact same look.
+---------------------------------------------------------------------------- */
+@theme {
+  --color-bg: #080a0c;
+  --color-surface: #111418;
+  --color-surface-2: #161b22;
+  --color-line: #1e242b;
+  --color-line-strong: #2b323b;
+  --color-fg: #eef1f4;
+  --color-muted: #a6adb6;
+  --color-faint: #747c85;
+  --color-brand: #22d3ee;
+  --color-brand-2: #67e8f9;
+  --color-brand-3: #0891b2;
+  --color-danger: #f87171;
+  --color-warn: #fbbf24;
+
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    background-color: #080a0c;
+    color: #e8ebef;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgba(34, 211, 238, 0.25);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Component classes — copied verbatim from the Vue project so markup that
+   uses .card / .chip / .eyebrow / .btn* looks identical across both apps.
+---------------------------------------------------------------------------- */
+@layer components {
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.22em] text-brand;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 1.5rem;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-brand), transparent);
+  }
+
+  .card {
+    @apply rounded-xl border border-line bg-surface;
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.04),
+      0 14px 34px -22px rgba(0, 0, 0, 0.7);
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-md border border-line bg-surface-2/70 px-2.5 py-1 font-mono text-xs text-muted;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-150 focus-visible:outline-none;
+  }
+
+  .btn-primary {
+    @apply bg-brand text-[#04161a] hover:brightness-110;
+  }
+
+  .btn-ghost {
+    @apply border border-line text-fg hover:border-line-strong hover:bg-white/5;
+  }
+
+  .mono {
+    @apply font-mono;
+  }
+}
