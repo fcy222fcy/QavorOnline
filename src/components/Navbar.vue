@@ -8,6 +8,7 @@ const data = useContent()
 const navLinks = computed(() => data.value.nav)
 const ui = computed(() => data.value.ui)
 const { locale, toggleLocale } = useLocale()
+const logoUrl = `${import.meta.env.BASE_URL}qavor-logo.png`
 
 const scrolled = ref(false)
 const open = ref(false)
@@ -39,15 +40,11 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
     <nav class="container-x flex h-16 items-center justify-between gap-4">
       <!-- Brand -->
       <a href="#top" class="flex items-center gap-2.5" @click="close">
-        <span
-          class="grid h-8 w-8 place-items-center rounded-lg border border-line bg-surface"
-        >
-          <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <circle cx="16" cy="16" r="6.5" stroke="#22D3EE" stroke-width="2" />
-            <circle cx="16" cy="16" r="2.2" fill="#22D3EE" />
-            <path d="M22.5 22.5L27 27" stroke="#34D399" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        </span>
+        <img
+          :src="logoUrl"
+          alt="Qavor 项目图标"
+          class="h-8 w-8 rounded-lg border border-line object-cover"
+        />
         <span class="font-display text-lg font-semibold tracking-tight text-fg">{{ site.name }}</span>
       </a>
 
