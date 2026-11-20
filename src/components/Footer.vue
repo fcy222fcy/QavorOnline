@@ -1,11 +1,22 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { Github } from 'lucide-vue-next'
 import { useContent } from '../composables/useContent'
 import { site } from '../data/project'
 
 const data = useContent()
 const footer = computed(() => data.value.footer)
+
+// 不蒜子访问统计：在组件挂载、DOM 渲染完成后动态注入脚本，
+// 保证计数 span 已存在；脚本加载失败时容器保持 display:none，不影响页面。
+onMounted(() => {
+  if (document.getElementById('busuanzi-script')) return
+  const bsz = document.createElement('script')
+  bsz.id = 'busuanzi-script'
+  bsz.src = 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'
+  bsz.async = true
+  document.body.appendChild(bsz)
+})
 </script>
 
 <template>
@@ -48,6 +59,11 @@ const footer = computed(() => data.value.footer)
         class="container-x flex flex-col items-center justify-between gap-2 py-5 text-xs text-faint sm:flex-row"
       >
         <span>{{ footer.copyright }}</span>
+        <span id="busuanzi_container_site_pv" class="font-mono" style="display: none">
+          Visits <span id="busuanzi_value_site_pv"></span>
+          &middot;
+          Visitors <span id="busuanzi_value_site_uv"></span>
+        </span>
         <span class="font-mono">{{ footer.builtWith }}</span>
       </div>
     </div>
